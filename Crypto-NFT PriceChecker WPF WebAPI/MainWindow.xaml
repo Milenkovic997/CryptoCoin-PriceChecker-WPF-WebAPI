@@ -1,0 +1,92 @@
+﻿<Window x:Class="Crypto_NFT_PriceChecker_WPF_WebAPI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Crypto_NFT_PriceChecker_WPF_WebAPI"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:local1="clr-namespace:Crypto_NFT_PriceChecker_WPF_WebAPI.CryptoDescription5m"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="900" Width="1600" ResizeMode="NoResize" WindowStyle="None" Background="Black">
+    <Window.Resources>
+        <local1:TextToBackgroundConverter x:Key="TextToBackgroundConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid Height="33" VerticalAlignment="Top">
+            <StackPanel Height="33" Background="#FF1D1D1D" MouseLeftButtonDown="dragFrameFunction" VerticalAlignment="Top"/>
+            <Grid x:Name="btnExit" Height="33" Width="33" Background="#FF1D1D1D" HorizontalAlignment="Right" MouseEnter="btnExit_MouseEnter" MouseLeave="btnExit_MouseLeave" MouseLeftButtonDown="btnExit_MouseLeftButtonDown">
+                <materialDesign:PackIcon Kind="CloseBold" x:Name="lblExit" Foreground="#FFC5C5C5" HorizontalAlignment="Center" VerticalAlignment="Center" Height="44" MouseLeftButtonDown="btnExit_MouseLeftButtonDown" Width="30"/>
+            </Grid>
+        </Grid>
+        <StackPanel Orientation="Horizontal" Margin="0,33,0,0" VerticalAlignment="Top">
+            <StackPanel>
+                <StackPanel Height="400" Orientation="Horizontal" Margin="0,0,50,0" Width="1100" HorizontalAlignment="Left">
+                    <StackPanel VerticalAlignment="Center" Background="Black" Margin="20,0,0,0">
+                        <TextBlock x:Name="tbGraph100" Width="100" FontSize="16" FontWeight="Normal" Height="24" Foreground="White"/>
+                        <TextBlock x:Name="tbGraph50" Width="100" FontSize="16" FontWeight="Normal" Height="24" Margin="0,139,0,0" Foreground="White"/>
+                        <TextBlock x:Name="tbGraph0" Width="100" FontSize="16" FontWeight="Normal" Height="24" Margin="0,139,0,0" Foreground="White"/>
+                    </StackPanel>
+                    <StackPanel x:Name="spGraph" Orientation="Horizontal" Width="970" Height="350" VerticalAlignment="Center" Margin="10,0,20,0"/>
+                </StackPanel>
+
+                <DataGrid x:Name="listOfPrices" ItemsSource="{Binding}" IsReadOnly="True" FontWeight="Medium" FontSize="16" HorizontalScrollBarVisibility="Disabled" Focusable="False" CanUserResizeColumns="False" BorderBrush="{DynamicResource MaterialDesignDarkForeground}" SelectionMode="Single" Height="426" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False" Background="Black" Margin="0,20,0,0" Width="1087">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding name}"/>
+                        <DataGridTextColumn Header="Symbol" Binding="{Binding symbol}"/>
+                        <DataGridTextColumn Header="Price" Binding="{Binding price}"/>
+                        <DataGridTextColumn Header="Market Cup" Binding="{Binding marketCap}"/>
+                        <DataGridTextColumn Header="24h Volume" Binding="{Binding hVolume}"/>
+                        <DataGridTextColumn Header="Time" Binding="{Binding timestamp}"/>
+                        <DataGridTextColumn Header="%" Binding="{Binding hpercent}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter  Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource TextToBackgroundConverter}}"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </StackPanel>
+
+            <StackPanel Width="450">
+                <StackPanel Background="#FF1D1D1D">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Width="190">
+                            <TextBlock Text="How many days:" Margin="20,10,0,0" Foreground="White" FontSize="16" Padding="0,0,0,5"/>
+                            <ComboBox x:Name="cbDays" SelectionChanged="cbDays_SelectionChanged" Foreground="White" Background="#FF171717" SelectedIndex="3" FontSize="20" Padding="20,4,20,4">
+                                <ComboBoxItem Content="7"/>
+                                <ComboBoxItem Content="30"/>
+                                <ComboBoxItem Content="90"/>
+                                <ComboBoxItem Content="180"/>
+                                <ComboBoxItem Content="365"/>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Width="255" Margin="5,0,0,0" VerticalAlignment="Bottom">
+                            <TextBlock Text="Find a Crypto Currency:" Margin="20,10,0,0" Foreground="White" FontSize="16" Padding="0,0,0,5"/>
+
+                            <TextBox x:Name="tbSearchCrypto" Height="35" Margin="10,0,0,0" FontSize="20" Foreground="White" TextChanged="tbSearchCrypto_TextChanged" Padding="10,4,0,4"></TextBox>
+                        </StackPanel>
+                    </StackPanel>
+                    <ScrollViewer Width="450" Margin="0,10,0,0" Height="295" HorizontalAlignment="Left">
+                        <StackPanel x:Name="spListOfCoins" Margin="10,0,0,0" Width="370" VerticalAlignment="Top">
+
+                        </StackPanel>
+                    </ScrollViewer>
+                    <Button x:Name="btnCryptoSearch" Margin="20,10,20,10" Content="Search" Click="btnCryptoSearch_Click"/>
+                </StackPanel>
+                <StackPanel Background="#FF1D1D1D" Margin="0,20,0,0">
+                    <TextBlock x:Name="tbCryptoName" Foreground="White" Padding="20,0,0,0" FontSize="48" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="tbCryptoTag" Foreground="#FF9E9E9E" Padding="20,0,0,0" FontSize="16" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbCryptoPrice" Foreground="White" Padding="20,0,0,0" FontSize="36" Margin="0,20,0,0" Text="$"/>
+
+                    <TextBlock x:Name="tbCryptoInformationDay" Foreground="White" Padding="20,0,0,0" FontSize="18" Margin="0,20,0,0" Text="Day: "/>
+                    <TextBlock x:Name="tbCryptoInformationOpen" Foreground="White" Padding="20,20,0,0" FontSize="18" Text="Start:"/>
+                    <TextBlock x:Name="tbCryptoInformationClose" Foreground="White" Padding="20,0,0,0" FontSize="18" Text="End:"/>
+                    <TextBlock x:Name="tbCryptoInformationHigh" Foreground="White" Padding="20,20,0,0" FontSize="18" Text="Max:"/>
+                    <TextBlock x:Name="tbCryptoInformationLow" Foreground="White" Padding="20,0,0,68" FontSize="18" Text="Min:"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
